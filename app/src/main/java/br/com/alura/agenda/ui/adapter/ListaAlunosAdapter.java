@@ -60,7 +60,8 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
         nome.setText(aluno.getNome());
         Telefone primeiroTelefoneAluno = dao.buscarPrimeiroTelefoneDoAluno(aluno.getId());
-        telefone.setText(primeiroTelefoneAluno.getNumero());
+        if(primeiroTelefoneAluno != null)
+            telefone.setText(primeiroTelefoneAluno.getNumero());
         email.setText(aluno.getEmail());
     }
 

@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
+import br.com.alura.agenda.database.dao.TelefoneDAO;
 import br.com.alura.agenda.model.Aluno;
+import br.com.alura.agenda.model.Telefone;
+import br.com.alura.agenda.model.TipoTelefone;
 
 import static br.com.alura.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
 import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_EDITA_ALUNO;
@@ -24,8 +27,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private EditText campoTelefoneFixo;
     private EditText campoTelefoneCelular;
     private EditText campoEmail;
-    private AlunoDAO alunoDAO;
     private Aluno aluno;
+    private AlunoDAO alunoDAO;
+    private TelefoneDAO telefoneDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR_NOVO_ALUNO);
 
         alunoDAO = AgendaDatabase.getInstance(this).getAlunoDAO();
+        telefoneDAO = AgendaDatabase.getInstance(this).getTelefoneDAO();
 
         inicializacaoCampos();
         carregaAluno();
@@ -89,7 +94,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         if (aluno.temIdValido()) {
             alunoDAO.edita(aluno);
         } else {
-            alunoDAO.salvar(aluno);
+            int alunoId = alunoDAO.salvar(aluno).intValue();
+
+            String numeroFixo = campoTelefoneFixo.getText().toString();
+            Telefone telefoneFixo = new Telefone(numeroFixo, TipoTelefone.FIXO, alunoId);
+
+            String numeroCelular = campoTelefoneCelular.getText().toString();
+            Telefone telefoneCelular = new Telefone(numeroCelular, TipoTelefone.CELULAR, alunoId);
+
+            telefoneDAO.salvar(telefoneFixo, telefoneCelular);
         }
         finish();
     }
