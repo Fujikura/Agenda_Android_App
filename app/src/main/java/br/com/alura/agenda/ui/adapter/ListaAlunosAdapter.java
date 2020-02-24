@@ -57,7 +57,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
         nome.setText(aluno.getNome());
 
         Telefone primeiroTelefoneAluno = AgendaDatabase.getInstance(context)
-                .getTelefoneDAO().buscarPrimeiroTelefoneDoAluno();
+                .getTelefoneDAO().buscarPrimeiroTelefoneDoAluno(aluno.getId());
 
         telefone.setText(primeiroTelefoneAluno.getNumero());
         email.setText(aluno.getEmail());
