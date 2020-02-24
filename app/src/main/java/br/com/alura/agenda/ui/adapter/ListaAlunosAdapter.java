@@ -53,7 +53,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView email = view.findViewById(R.id.item_aluno_email);
 
         nome.setText(aluno.getNome());
-        telefone.setText(aluno.getTelefone());
+        telefone.setText(aluno.getTelefoneFixo());
         email.setText(aluno.getEmail());
     }
 
