@@ -47,16 +47,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     }
 
-    private void clear() {
-        alunos.clear();
-    }
-
-    private void addAll(List<Aluno> total) {
-        alunos.addAll(total);
-    }
-
-
-    private void vincula(View view, Aluno aluno) {
+   private void vincula(View view, Aluno aluno) {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
         TextView email = view.findViewById(R.id.item_aluno_email);

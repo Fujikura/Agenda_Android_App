@@ -1,24 +1,24 @@
 package br.com.alura.agenda.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+@Entity
 public class Aluno implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
     private int id = 0;
     private String nome;
     private String telefone;
     private String email;
+    private Calendar momentoDeCadastro = Calendar.getInstance();
 
-
-    public Aluno(){}
-
-    public Aluno(String nome, String telefone, String email) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-    }
 
     public int getId() {
         return id;
@@ -52,14 +52,23 @@ public class Aluno implements Serializable {
         this.email = email;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return this.nome + " - " + this.telefone + " - " + this.email;
+    public Calendar getMomentoDeCadastro() {
+        return momentoDeCadastro;
+    }
+
+    public void setMomentoDeCadastro(Calendar momentoDeCadastro) {
+        this.momentoDeCadastro = momentoDeCadastro;
     }
 
     public boolean temIdValido() {
 
         return this.id > 0;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.nome + " - " + this.telefone + " - " + this.email;
     }
 }
