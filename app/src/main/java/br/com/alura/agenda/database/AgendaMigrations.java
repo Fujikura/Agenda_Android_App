@@ -41,7 +41,7 @@ class AgendaMigrations {
             database.execSQL("ALTER TABLE Aluno_novo RENAME TO Aluno");
         }
     };
-    
+
 
     private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override

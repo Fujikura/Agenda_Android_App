@@ -23,8 +23,8 @@ public abstract class AgendaDatabase extends RoomDatabase {
     static final String NOME_DO_BANCO_DE_DADOS = "agenda.db";
 
     public abstract AlunoDAO getAlunoDAO();
-
     public abstract TelefoneDAO getTelefoneDAO();
+
 
     public static AgendaDatabase getInstance(Context context) {
         return Room.databaseBuilder(context, AgendaDatabase.class, NOME_DO_BANCO_DE_DADOS)
