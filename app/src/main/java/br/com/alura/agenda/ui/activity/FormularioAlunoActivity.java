@@ -9,6 +9,8 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
@@ -30,6 +32,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private Aluno aluno;
     private AlunoDAO alunoDAO;
     private TelefoneDAO telefoneDAO;
+    private List<Telefone> telefonesDoAluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +80,14 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void preencheCampos() {
         campoNome.setText(aluno.getNome());
-//        campoTelefoneFixo.setText(aluno.getTelefoneFixo());
-//        campoTelefoneCelular.setText(aluno.getTelefoneCelular());
         campoEmail.setText(aluno.getEmail());
+        telefonesDoAluno = telefoneDAO.buscaTodosTelefonesDoAluno(aluno.getId());
+
+        for (Telefone telefone : telefonesDoAluno) {
+            if(telefone.getTipo() == TipoTelefone.FIXO)
+                campoTelefoneFixo.setText(telefone.getNumero());
+            campoTelefoneCelular.setText(telefone.getNumero());
+        }
     }
 
     private void inicializacaoCampos() {
@@ -93,6 +101,17 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         preencheAluno();
         if (aluno.temIdValido()) {
             alunoDAO.edita(aluno);
+
+            for (Telefone telefone : telefonesDoAluno) {
+                if(telefone.getTipo() == TipoTelefone.FIXO){
+                    String numeroFixo = campoTelefoneFixo.getText().toString();
+                    telefone.setNumero(numeroFixo);
+                }else{
+                    String numeroCelular = campoTelefoneCelular.getText().toString();
+                    telefone.setNumero(numeroCelular);
+                }
+                telefoneDAO.atualiza(telefonesDoAluno);
+            }
         } else {
             int alunoId = alunoDAO.salvar(aluno).intValue();
 

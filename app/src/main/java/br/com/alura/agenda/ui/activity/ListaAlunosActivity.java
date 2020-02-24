@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import br.com.alura.agenda.R;
-import br.com.alura.agenda.database.AgendaDatabase;
-import br.com.alura.agenda.database.dao.AlunoDAO;
 import br.com.alura.agenda.model.Aluno;
 import br.com.alura.agenda.ui.ListaAlunosView;
 
