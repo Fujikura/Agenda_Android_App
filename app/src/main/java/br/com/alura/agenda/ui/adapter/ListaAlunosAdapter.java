@@ -59,9 +59,9 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView email = view.findViewById(R.id.item_aluno_email);
 
         nome.setText(aluno.getNome());
-        Telefone primeiroTelefoneAluno = dao.buscarPrimeiroTelefoneDoAluno(aluno.getId());
-        if(primeiroTelefoneAluno != null)
-            telefone.setText(primeiroTelefoneAluno.getNumero());
+//        Telefone primeiroTelefoneAluno = dao.buscarPrimeiroTelefoneDoAluno(aluno.getId());
+//        if(primeiroTelefoneAluno != null)
+//            telefone.setText(primeiroTelefoneAluno.getNumero());
         email.setText(aluno.getEmail());
     }
 
