@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import br.com.alura.agenda.R;
+import br.com.alura.agenda.asycntask.SalvaAlunoTask;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
 import br.com.alura.agenda.database.dao.TelefoneDAO;
@@ -125,9 +126,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void salvaAluno(Telefone telefoneFixo, Telefone telefoneCelular) {
-        int alunoId = alunoDAO.salvar(aluno).intValue();
-        vinculaAlunoComTelefone(alunoId, telefoneFixo, telefoneCelular);
-        telefoneDAO.salvar(telefoneFixo, telefoneCelular);
+        new SalvaAlunoTask(
+                aluno,
+                telefoneFixo,
+                telefoneCelular,
+                alunoDAO, telefoneDAO,
+                this::finish
+        )
+                .execute();
+
     }
 
     private void editaAluno(Telefone telefoneFixo, Telefone telefoneCelular) {
@@ -146,11 +153,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         }
     }
 
-    private void vinculaAlunoComTelefone(int alunoId, Telefone... telefones) {
-        for (Telefone telefone : telefones) {
-            telefone.setAlunoId(alunoId);
-        }
-    }
 
     private void preencheAluno() {
         String nome = campoNome.getText().toString();
@@ -159,6 +161,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         aluno.setNome(nome);
         aluno.setEmail(email);
 
+    }
+
+    private void vinculaAlunoComTelefone(int alunoId, Telefone... telefones) {
+        for (Telefone telefone : telefones) {
+            telefone.setAlunoId(alunoId);
+        }
     }
 
 }
