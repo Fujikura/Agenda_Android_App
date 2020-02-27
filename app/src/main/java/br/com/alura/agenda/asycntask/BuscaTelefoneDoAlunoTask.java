@@ -1,7 +1,6 @@
 package br.com.alura.agenda.asycntask;
 
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import br.com.alura.agenda.database.dao.TelefoneDAO;
 import br.com.alura.agenda.model.Aluno;
@@ -10,12 +9,12 @@ import br.com.alura.agenda.model.Telefone;
 public class BuscaTelefoneDoAlunoTask extends AsyncTask<Void, Void, Telefone> {
     private final TelefoneDAO dao;
     private final Aluno aluno;
-    private TextView telefone;
+    private final PrimeiroTelefoneEncontradoListener listener;
 
-    public BuscaTelefoneDoAlunoTask(TelefoneDAO dao, Aluno aluno, TextView telefone) {
+    public BuscaTelefoneDoAlunoTask(TelefoneDAO dao, Aluno aluno, PrimeiroTelefoneEncontradoListener listener) {
         this.dao = dao;
         this.aluno = aluno;
-        this.telefone = telefone;
+        this.listener = listener;
     }
 
     @Override
@@ -27,7 +26,10 @@ public class BuscaTelefoneDoAlunoTask extends AsyncTask<Void, Void, Telefone> {
     @Override
     protected void onPostExecute(Telefone primeiroTelefoneAluno) {
         super.onPostExecute(primeiroTelefoneAluno);
-        if(primeiroTelefoneAluno != null)
-            telefone.setText(primeiroTelefoneAluno.getNumero());
+        listener.quandoEncontrado(primeiroTelefoneAluno);
+    }
+
+    public interface PrimeiroTelefoneEncontradoListener {
+        void quandoEncontrado(Telefone telefoneEncontrado);
     }
 }
