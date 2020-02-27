@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import br.com.alura.agenda.R;
+import br.com.alura.agenda.asycntask.BuscaTodosTelefonesDoAlunoTask;
 import br.com.alura.agenda.asycntask.SalvaAlunoTask;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.AlunoDAO;
@@ -88,13 +89,18 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void preencheCamposTelefone() {
-        telefonesDoAluno = telefoneDAO.buscaTodosTelefonesDoAluno(aluno.getId());
-        for (Telefone telefone : telefonesDoAluno) {
-            if (telefone.getTipo() == TipoTelefone.FIXO)
-                campoTelefoneFixo.setText(telefone.getNumero());
-            else
-                campoTelefoneCelular.setText(telefone.getNumero());
-        }
+        new BuscaTodosTelefonesDoAlunoTask(telefoneDAO, aluno, telefonesEncontrados -> {
+            this.telefonesDoAluno = telefonesEncontrados;
+            for (Telefone telefone : telefonesDoAluno) {
+                if (telefone.getTipo() == TipoTelefone.FIXO)
+                    campoTelefoneFixo.setText(telefone.getNumero());
+                else
+                    campoTelefoneCelular.setText(telefone.getNumero());
+            }
+
+        })
+                .execute();
+
     }
 
     private void inicializacaoCampos() {
