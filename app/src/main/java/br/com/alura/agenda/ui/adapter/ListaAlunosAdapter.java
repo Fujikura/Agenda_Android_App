@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.alura.agenda.R;
+import br.com.alura.agenda.asycntask.BuscaTelefoneDoAlunoTask;
 import br.com.alura.agenda.database.AgendaDatabase;
 import br.com.alura.agenda.database.dao.TelefoneDAO;
 import br.com.alura.agenda.model.Aluno;
-import br.com.alura.agenda.model.Telefone;
 
 public class ListaAlunosAdapter extends BaseAdapter {
 
@@ -59,10 +59,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView email = view.findViewById(R.id.item_aluno_email);
 
         nome.setText(aluno.getNome());
-//        Telefone primeiroTelefoneAluno = dao.buscarPrimeiroTelefoneDoAluno(aluno.getId());
-//        if(primeiroTelefoneAluno != null)
-//            telefone.setText(primeiroTelefoneAluno.getNumero());
         email.setText(aluno.getEmail());
+
+        new BuscaTelefoneDoAlunoTask(dao, aluno, telefone)
+        .execute();
+
     }
 
     private View criaView(ViewGroup viewGroup) {
